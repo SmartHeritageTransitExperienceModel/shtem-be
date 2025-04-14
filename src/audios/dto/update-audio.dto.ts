@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { IsOptional, IsMongoId, IsString } from 'class-validator';
+import { IsOptional, IsMongoId, IsString, IsUrl } from 'class-validator';
 import { CreateAudioDto } from './create-audio.dto';
 
 export class UpdateAudioDto extends PartialType(CreateAudioDto) {
@@ -11,7 +11,7 @@ export class UpdateAudioDto extends PartialType(CreateAudioDto) {
   @IsOptional()
   readonly voice?: string;
 
-  @IsString()
+  @IsUrl({}, { message: 'url must be a valid URL' })
   @IsOptional()
   readonly url?: string;
 }

@@ -17,7 +17,7 @@ import { AudiosModule } from './audios/audios.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true
+      isGlobal: true,
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -28,13 +28,14 @@ import { AudiosModule } from './audios/audios.module';
     }),
     PlacesModule,
     DescriptionsModule,
-    AudiosModule],
+    AudiosModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    // consumer.apply(LoggerMiddleware).forRoutes('places'); //option 1
+    consumer.apply(LoggerMiddleware).forRoutes('places', 'descriptions', 'audios'); //option 1
     // consumer
     //   .apply(LoggerMiddleware)
     //   .forRoutes(
@@ -43,7 +44,10 @@ export class AppModule implements NestModule {
     //   ); //option 2
     // consumer
     //   .apply(LoggerMiddleware)
-    //   .forRoutes({ path: 'places/(.*)', method: RequestMethod.ALL }); //option 3
-    consumer.apply(LoggerMiddleware).forRoutes(PlacesController); //option 4
+    //   .forRoutes(
+    //     { path: 'places/(.*)', method: RequestMethod.ALL },
+    //     { path: 'descriptions/(.*)', method: RequestMethod.ALL },
+    //   ); //option 3
+    // consumer.apply(LoggerMiddleware).forRoutes(PlacesController); //option 4
   }
 }

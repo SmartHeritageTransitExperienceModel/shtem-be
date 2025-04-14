@@ -7,6 +7,8 @@ export type DescriptionDocument = Description & Document;
 @Schema({
   timestamps: true,
   collection: 'descriptions',
+  toJSON: { virtuals: true, versionKey: false },
+  toObject: { virtuals: true, versionKey: false },
 })
 export class Description {
   @Prop({ type: Types.ObjectId, ref: Place.name, required: true })
@@ -32,3 +34,10 @@ export class Description {
 }
 
 export const DescriptionSchema = SchemaFactory.createForClass(Description);
+DescriptionSchema.index({ place: 1, language: 1 }, { unique: true });
+DescriptionSchema.virtual('audios', {
+  ref: 'Audio', 
+  localField: '_id',
+  foreignField: 'description', 
+  options: { sort: { voice: 1 } },
+});

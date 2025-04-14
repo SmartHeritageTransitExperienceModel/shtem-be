@@ -4,18 +4,17 @@ import {
   Post,
   Body,
   Patch,
-  Put,
   Param,
   Delete,
   HttpException,
   HttpStatus,
-  ParseIntPipe,
-  Inject,
+  Query,
 } from '@nestjs/common';
 import { PlacesService } from './places.service';
 import { CreatePlaceDto } from './dto/create-place.dto';
 import { UpdatePlaceDto } from './dto/update-place.dto';
 import { Types } from 'mongoose';
+import { FindPlacesDto } from './dto/find-place.dto';
 
 @Controller('places')
 export class PlacesController {
@@ -26,12 +25,13 @@ export class PlacesController {
     try {
       return await this.placesService.create(createPlaceDto);
     } catch (e) {
+      if (e instanceof HttpException) {
+        throw e;
+      }
       throw new HttpException(
         'Lỗi máy chủ nội bộ',
         HttpStatus.INTERNAL_SERVER_ERROR,
-        {
-          cause: e,
-        },
+        { cause: e },
       );
     }
   }
@@ -44,9 +44,23 @@ export class PlacesController {
       throw new HttpException(
         'Lỗi máy chủ nội bộ',
         HttpStatus.INTERNAL_SERVER_ERROR,
-        {
-          cause: e,
-        },
+        { cause: e },
+      );
+    }
+  }
+
+  @Get('nearby')
+  async findNearbyPlaces(@Query() findPlacesDto: FindPlacesDto) {
+    try {
+      return await this.placesService.findNearby(findPlacesDto);
+    } catch (e) {
+      if (e instanceof HttpException) {
+        throw e;
+      }
+      throw new HttpException(
+        'Lỗi máy chủ nội bộ',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        { cause: e },
       );
     }
   }
@@ -75,9 +89,7 @@ export class PlacesController {
       throw new HttpException(
         'Lỗi máy chủ nội bộ',
         HttpStatus.INTERNAL_SERVER_ERROR,
-        {
-          cause: e,
-        },
+        { cause: e },
       );
     }
   }
@@ -93,7 +105,10 @@ export class PlacesController {
       }
       const updatedPlace = await this.placesService.update(id, updatePlaceDto);
       if (!updatedPlace) {
-        throw new HttpException('Không tìm thấy địa điểm', HttpStatus.NOT_FOUND);
+        throw new HttpException(
+          'Không tìm thấy địa điểm',
+          HttpStatus.NOT_FOUND,
+        );
       }
       return updatedPlace;
     } catch (e) {
@@ -103,9 +118,7 @@ export class PlacesController {
       throw new HttpException(
         'Lỗi máy chủ nội bộ',
         HttpStatus.INTERNAL_SERVER_ERROR,
-        {
-          cause: e,
-        },
+        { cause: e },
       );
     }
   }
@@ -118,9 +131,12 @@ export class PlacesController {
       }
       const deletedPlace = await this.placesService.remove(id);
       if (!deletedPlace) {
-        throw new HttpException('Không tìm thấy địa điểm', HttpStatus.NOT_FOUND);
+        throw new HttpException(
+          'Không tìm thấy địa điểm',
+          HttpStatus.NOT_FOUND,
+        );
       }
-      return { mess: 'Xóa thành công' };
+      return { message: 'Xóa địa điểm thành công' };
     } catch (e) {
       if (e instanceof HttpException) {
         throw e;
@@ -128,9 +144,7 @@ export class PlacesController {
       throw new HttpException(
         'Lỗi máy chủ nội bộ',
         HttpStatus.INTERNAL_SERVER_ERROR,
-        {
-          cause: e,
-        },
+        { cause: e },
       );
     }
   }

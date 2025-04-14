@@ -5,6 +5,7 @@ import {
   ValidateNested,
   IsIn,
   IsNumber,
+  IsUrl,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -28,6 +29,6 @@ export class CreatePlaceDto {
   readonly slug: string;
 
   @IsArray()
-  @IsString({ each: true })
-  readonly image: string[];
+  @IsUrl({}, { each: true })
+  readonly images: string[];
 }
