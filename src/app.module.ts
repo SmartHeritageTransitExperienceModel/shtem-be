@@ -11,6 +11,8 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { PlacesController } from './places/places.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { DescriptionsModule } from './descriptions/descriptions.module';
+import { AudiosModule } from './audios/audios.module';
 
 @Module({
   imports: [
@@ -24,7 +26,9 @@ import { MongooseModule } from '@nestjs/mongoose';
       }),
       inject: [ConfigService],
     }),
-    PlacesModule],
+    PlacesModule,
+    DescriptionsModule,
+    AudiosModule],
   controllers: [AppController],
   providers: [AppService],
 })

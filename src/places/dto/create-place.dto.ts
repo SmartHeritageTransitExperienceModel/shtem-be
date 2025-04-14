@@ -18,24 +18,16 @@ class GeoLocation {
 }
 
 export class CreatePlaceDto {
-  @IsString()
-  @IsNotEmpty()
-  readonly name: string;
-
   @IsNotEmpty()
   @ValidateNested()
   @Type(() => GeoLocation)
   readonly location: GeoLocation;
 
   @IsString()
-  readonly wikipediaDesc: string;
-
-  @IsString()
-  readonly aiDesc: string;
+  @IsNotEmpty()
+  readonly slug: string;
 
   @IsArray()
+  @IsString({ each: true })
   readonly image: string[];
-
-  @IsString()
-  readonly audio: string;
 }

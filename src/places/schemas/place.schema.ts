@@ -8,9 +8,6 @@ export type PlaceDocument = Place & Document;
   collection: 'places', 
 })
 export class Place {
-  @Prop({ type: String, required: true, trim: true })
-  name: string;
-
   @Prop({
     type: {
       type: String,
@@ -27,17 +24,11 @@ export class Place {
     coordinates: [number, number];
   };
 
-  @Prop({ type: String, trim: true })
-  wikipediaDesc: string;
-
-  @Prop({ type: String, trim: true })
-  aiDesc: string;
+  @Prop({ type: String, unique: true, required: true, trim: true })
+  slug: string;
 
   @Prop({ type: [String], default: [] })
   image: string[];
-
-  @Prop({ type: String })
-  audio: string;
 }
 
 export const PlaceSchema = SchemaFactory.createForClass(Place);

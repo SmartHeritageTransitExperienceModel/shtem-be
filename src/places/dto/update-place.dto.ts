@@ -5,6 +5,7 @@ import {
   IsIn,
   IsNumber,
   IsOptional,
+  IsString,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreatePlaceDto } from './create-place.dto';
@@ -25,4 +26,13 @@ export class UpdatePlaceDto extends PartialType(OmitType(CreatePlaceDto, ['locat
   @Type(() => GeoLocationUpdate)
   @IsOptional()
   readonly location?: GeoLocationUpdate;
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  readonly image?: string[];
+
+  @IsString()
+  @IsOptional()
+  readonly slug?: string;
 }
