@@ -2,17 +2,17 @@ import {
   MiddlewareConsumer,
   Module,
   NestModule,
-  RequestMethod,
 } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PlacesModule } from './places/places.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
-import { PlacesController } from './places/places.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DescriptionsModule } from './descriptions/descriptions.module';
 import { AudiosModule } from './audios/audios.module';
+import { dbConnection } from './common/providers/db.provider';
+import { configureMongoose } from './common/config/mongoose.config';
 
 @Module({
   imports: [
@@ -21,9 +21,15 @@ import { AudiosModule } from './audios/audios.module';
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGODB_URI'),
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const uri = configService.get<string>('MONGODB_URI');
+        if (!uri) {
+          throw new Error('MONGODB_URI không được định nghĩa!');
+        }
+        await dbConnection(uri);
+        configureMongoose();
+        return { uri }
+      },
       inject: [ConfigService],
     }),
     PlacesModule,

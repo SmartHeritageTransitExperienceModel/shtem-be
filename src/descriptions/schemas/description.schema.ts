@@ -7,8 +7,6 @@ export type DescriptionDocument = Description & Document;
 @Schema({
   timestamps: true,
   collection: 'descriptions',
-  toJSON: { virtuals: true, versionKey: false },
-  toObject: { virtuals: true, versionKey: false },
 })
 export class Description {
   @Prop({ type: Types.ObjectId, ref: Place.name, required: true })

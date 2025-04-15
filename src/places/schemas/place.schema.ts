@@ -13,9 +13,7 @@ class GeoLocation {
 
 @Schema({
   timestamps: true, 
-  collection: 'places', 
-  toJSON: { virtuals: true, versionKey: false },
-  toObject: { virtuals: true, versionKey: false },
+  collection: 'places',
 })
 export class Place {
   @Prop({ type: GeoLocation, required: true })
@@ -31,7 +29,6 @@ export class Place {
 export const PlaceSchema = SchemaFactory.createForClass(Place);
 
 PlaceSchema.index({ location: '2dsphere' });
-PlaceSchema.index({ slug: 1 });
 
 PlaceSchema.virtual('descriptions', {
   ref: 'Description', 

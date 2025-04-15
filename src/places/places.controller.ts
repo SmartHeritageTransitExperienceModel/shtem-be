@@ -18,6 +18,7 @@ import { FindPlacesDto } from './dto/find-place.dto';
 
 @Controller('places')
 export class PlacesController {
+  private readonly SUPPORTED_LANGUAGES = ['vi', 'en'];
   constructor(private readonly placesService: PlacesService) {}
 
   @Post()
@@ -66,7 +67,7 @@ export class PlacesController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string, @Query('lang') lang: string = 'vi') {
     try {
       if (!Types.ObjectId.isValid(id)) {
         throw new HttpException(
@@ -74,7 +75,8 @@ export class PlacesController {
           HttpStatus.NOT_ACCEPTABLE,
         );
       }
-      const place = await this.placesService.findOne(id);
+      const safeLang = this.SUPPORTED_LANGUAGES.includes(lang) ? lang : 'en';
+      const place = await this.placesService.findOne(id, safeLang);
       if (!place) {
         throw new HttpException(
           'Không tìm thấy địa điểm',

@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { Description } from 'src/descriptions/schemas/description.schema';
-import { Place } from 'src/places/schemas/place.schema';
 
 export type AudioDocument = Audio & Document;
 
@@ -22,3 +21,4 @@ export class Audio {
 }
 
 export const AudioSchema = SchemaFactory.createForClass(Audio);
+AudioSchema.index({ description: 1 });

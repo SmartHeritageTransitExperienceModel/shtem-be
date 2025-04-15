@@ -27,22 +27,24 @@ export class PlacesService {
     return await this.placeModel.find().exec();
   }
 
-  async findOne(id: string): Promise<Place | null> {
+  async findOne(id: string, lang: string): Promise<Place | null> {
     try {
       const place = await this.placeModel
         .findById(id)
+        .select('-__v -createdAt -updatedAt')
         .populate({
           path: 'descriptions',
+          match: { language: lang },
           select: '-__v -createdAt -updatedAt',
           populate: {
             path: 'audios',
             select: '-__v -createdAt -updatedAt',
           },
         })
+        .lean()
         .exec();
       return place;
     } catch (e) {
-      console.log(e.message);
       throw new HttpException(
         'Lỗi khi lấy populate',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -51,15 +53,6 @@ export class PlacesService {
         },
       );
     }
-    return await this.placeModel
-      .findById(id)
-      .populate({
-        path: 'descriptions',
-        populate: {
-          path: 'audios',
-        },
-      })
-      .exec();
   }
 
   async findNearby(findPlacesDto: FindPlacesDto): Promise<Place[]> {
