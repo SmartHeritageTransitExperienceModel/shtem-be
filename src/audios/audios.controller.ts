@@ -29,9 +29,7 @@ export class AudiosController {
       throw new HttpException(
         'Lỗi máy chủ nội bộ',
         HttpStatus.INTERNAL_SERVER_ERROR,
-        {
-          cause: e,
-        },
+        { cause: e },
       );
     }
   }
@@ -44,9 +42,7 @@ export class AudiosController {
       throw new HttpException(
         'Lỗi máy chủ nội bộ',
         HttpStatus.INTERNAL_SERVER_ERROR,
-        {
-          cause: e,
-        },
+        { cause: e },
       );
     }
   }
@@ -69,9 +65,7 @@ export class AudiosController {
       throw new HttpException(
         'Lỗi máy chủ nội bộ',
         HttpStatus.INTERNAL_SERVER_ERROR,
-        {
-          cause: e,
-        },
+        { cause: e },
       );
     }
   }
@@ -100,9 +94,7 @@ export class AudiosController {
       throw new HttpException(
         'Lỗi máy chủ nội bộ',
         HttpStatus.INTERNAL_SERVER_ERROR,
-        {
-          cause: e,
-        },
+        { cause: e },
       );
     }
   }

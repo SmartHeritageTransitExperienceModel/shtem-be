@@ -29,9 +29,7 @@ export class DescriptionsController {
       throw new HttpException(
         'Lỗi máy chủ nội bộ',
         HttpStatus.INTERNAL_SERVER_ERROR,
-        {
-          cause: e,
-        },
+        { cause: e },
       );
     }
   }
@@ -44,9 +42,7 @@ export class DescriptionsController {
       throw new HttpException(
         'Lỗi máy chủ nội bộ',
         HttpStatus.INTERNAL_SERVER_ERROR,
-        {
-          cause: e,
-        },
+        { cause: e },
       );
     }
   }
@@ -69,9 +65,7 @@ export class DescriptionsController {
       throw new HttpException(
         'Lỗi máy chủ nội bộ',
         HttpStatus.INTERNAL_SERVER_ERROR,
-        {
-          cause: e,
-        },
+        { cause: e },
       );
     }
   }
@@ -103,9 +97,7 @@ export class DescriptionsController {
       throw new HttpException(
         'Lỗi máy chủ nội bộ',
         HttpStatus.INTERNAL_SERVER_ERROR,
-        {
-          cause: e,
-        },
+        { cause: e },
       );
     }
   }
@@ -123,7 +115,7 @@ export class DescriptionsController {
           HttpStatus.BAD_REQUEST,
         );
       }
-      return { message: 'Xóa mô tả thành công' }
+      return { message: 'Xóa mô tả thành công' };
     } catch (e) {
       if (e instanceof HttpException) {
         throw e;
@@ -131,9 +123,7 @@ export class DescriptionsController {
       throw new HttpException(
         'Lỗi máy chủ nội bộ',
         HttpStatus.INTERNAL_SERVER_ERROR,
-        {
-          cause: e,
-        },
+        { cause: e },
       );
     }
   }
