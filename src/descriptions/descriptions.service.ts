@@ -28,12 +28,12 @@ export class DescriptionsService {
       );
     }
 
-    const createdDescription = new this.descriptionModel({
+    const newDescription = new this.descriptionModel({
       ...createDescriptionDto,
       place: place._id,
     });
 
-    return await createdDescription.save();
+    return await newDescription.save();
   }
 
   async findAll(): Promise<Description[]> {
@@ -65,12 +65,12 @@ export class DescriptionsService {
     }
     return await this.descriptionModel
       .findByIdAndUpdate(
-        id, 
+        id,
         {
           ...updateDescriptionDto,
-          ...(newPlaceId && { place: newPlaceId })
-        }, 
-        { new: true }
+          ...(newPlaceId && { place: newPlaceId }),
+        },
+        { new: true },
       )
       .exec();
   }
