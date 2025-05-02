@@ -35,7 +35,7 @@ export class PlacesService {
         .populate({
           path: 'descriptions',
           match: { language: lang },
-          select: '-__v -createdAt -updatedAt',
+          select: '-__v -createdAt -updatedAt -aiDesc -city',
           populate: {
             path: 'audios',
             select: '-__v -createdAt -updatedAt',
@@ -56,7 +56,7 @@ export class PlacesService {
   }
 
   async findNearby(findPlacesDto: FindPlacesDto): Promise<Place[]> {
-    const { longitude, latitude, distance } = findPlacesDto;
+    const { longitude, latitude, distance, language } = findPlacesDto;
     const places = await this.placeModel
       .find({
         location: {
@@ -68,6 +68,12 @@ export class PlacesService {
             $maxDistance: distance,
           },
         },
+      })
+      .select('-__v -createdAt -updatedAt')
+      .populate({
+        path: 'descriptions',
+        match: { language },
+        select: 'name'
       })
       .exec();
 
