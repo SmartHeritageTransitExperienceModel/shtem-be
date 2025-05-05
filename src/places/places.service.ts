@@ -56,7 +56,7 @@ export class PlacesService {
   }
 
   async findNearby(findPlacesDto: FindPlacesDto): Promise<Place[]> {
-    const { longitude, latitude, distance, language } = findPlacesDto;
+    const { longitude, latitude, distance } = findPlacesDto;
     const places = await this.placeModel
       .find({
         location: {
@@ -70,11 +70,6 @@ export class PlacesService {
         },
       })
       .select('-__v -createdAt -updatedAt')
-      .populate({
-        path: 'descriptions',
-        match: { language },
-        select: 'name'
-      })
       .exec();
 
     return places;
